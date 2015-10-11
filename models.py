@@ -32,6 +32,9 @@ class User(db.Model):
         pass
 
     def clear_scripts(self):
+        directory = self.name
+        if not exists(directory):
+            makedirs(directory)
         arr = [ f for f in listdir(self.name) if isfile(join(self.name,f)) ]
         for script in self.scripts:
             if script.name not in arr:

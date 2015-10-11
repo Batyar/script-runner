@@ -7,7 +7,7 @@
   * source env/bin/activate
   * pip install -r requirements.txt 
 
-######Set a mongodb host into MONGO_HOST variable in models.py after that create new user:
+######Set a mysql host into app.config['SQLALCHEMY_DATABASE_URI'] variable in models.py after that create new user:
 
   * python create_user.py username password role
 
