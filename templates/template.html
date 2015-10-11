@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Runner</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/foundation.css') }}">
+  </head>
+  <body>
+    <div class="off-canvas-wrap" data-offcanvas>
+      <div class="inner-wrap">
+        <nav class="tab-bar">
+          <section class="left-small">
+            <a class="left-off-canvas-toggle menu-icon" href="#"><span></span></a>
+          </section>
+
+          <section class="middle tab-bar-section">
+            <h1 class="title">Runner</h1>
+          </section>
+        </nav>
+
+        <aside class="left-off-canvas-menu">
+          <ul class="off-canvas-list">
+            <li><label>Runner</label></li>
+            {% if current_user.is_authenticated %}
+                <li><a href="/add_script">Add Script</a></li>
+                <li><a href="/scripts">Scripts</a></li>
+                <li><a href="/logout">Logout</a></li>
+            {% endif %}
+          </ul>
+        </aside>
+
+        <section class="main-section">
+          <div class="container main-content">
+            {% block content %}
+            {% endblock %}
+          </div>
+        </section>
+      <a class="exit-off-canvas"></a>
+      </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/vendor/modernizr.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/vendor/jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/foundation.min.js') }}"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>
+
+
