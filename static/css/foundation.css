@@ -6102,3 +6102,6 @@ th.hide-for-touch {
 .update.args{
   margin: auto
 }
+label, input[type=text], select{
+  min-width: 300px
+}
