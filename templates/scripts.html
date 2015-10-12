@@ -1,25 +1,37 @@
 {% extends "template.html" %}
 {% block content %}
-    <table>
-      <thead>
-        <tr>
-          <th width="200">Title</th>
-          <th>Arguments</th>
-          <th width="150">Output</th>
-          <th width="75">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for script in current_user.scripts %}
-        <form action="{{url_for('run_script', id=script.id)}}" method=post>
-          <tr>
-            <td>{{script.name}}</td>
-            <td>{{script.arguments}}</td>
-            <td>link</td>
-            <td><input class='tiny button' type=submit value=Run></td>
-          </tr>
-        </form>
-        {% endfor %}
-      </tbody>
-    </table>
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Arguments</th>
+      <th>Output</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for script in current_user.scripts %}
+    <form action="{{url_for('run_script', id=script.id)}}" method=post>
+      <tr>
+        <td>{{script.name}}</td>
+        <td>
+          <div class=update>
+            {{script.arguments}}
+          </div>
+        </td>
+        <td>link</td>
+        <td><input class='tiny button' type=submit value=Run></td>
+      </tr>
+    </form>
+    {% endfor %}
+  </tbody>
+</table>
+<script type="text/javascript">
+  $('.update').click(function(){
+    var exist_args = $(this).text().trim();
+    var form = '<form action=# method=post><input type=text value="' + exist_args + '"></form>'
+    $(this).parent().append(form)
+    $(this).remove();
+  })
+</script>
 {% endblock %}

@@ -3,6 +3,9 @@
   <head>
     <title>Runner</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/foundation.css') }}">
+    <script src="{{ url_for('static', filename='js/vendor/modernizr.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/vendor/jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/foundation.min.js') }}"></script>
   </head>
   <body>
     <div class="off-canvas-wrap" data-offcanvas>
@@ -37,9 +40,6 @@
       <a class="exit-off-canvas"></a>
       </div>
     </div>
-    <script src="{{ url_for('static', filename='js/vendor/modernizr.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/vendor/jquery.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/foundation.min.js') }}"></script>
     <script>
       $(document).foundation();
     </script>

@@ -6092,7 +6092,7 @@ th.hide-for-touch {
     margin: 20px!important;
     height: 100vh;
 }
-.login{
+.login, .add.script{
     margin-left: 0;
 }
 .button.tiny {

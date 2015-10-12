@@ -14,7 +14,7 @@ def user_loader(user_id):
 
 @app.route('/')
 def home():
-    return render_template('home.html')
+    return render_template('scripts.html')
 
 @app.route('/scripts')
 def scripts():
@@ -22,6 +22,7 @@ def scripts():
         current_user.clear_scripts()
         db.session.commit()
         return render_template('scripts.html')
+    return flash_and_redirect('Not authorized')
 
 @app.route('/add_script', methods=['GET', 'POST'])
 def add_script():
@@ -33,6 +34,7 @@ def add_script():
         else:
             users = User.query.all()
             return render_template('add_script.html', users=users)
+    return flash_and_redirect('Not authorized')
 
 @app.route('/scripts/<int:id>', methods=['POST'])
 def run_script(id):
@@ -40,25 +42,27 @@ def run_script(id):
     if current_user.id == script.user_id:
         current_user.run(script)
         return redirect(url_for('scripts'))
+    return flash_and_redirect('Not authorized')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         user = User.find_by_name(request.form['username'])
-        try:
-            check_password_hash(user.password, request.form['password'])
+        if user and check_password_hash(user.password, request.form['password']):
             login_user(user)
             return redirect(url_for('scripts'))
-        except ValueError:
-            flash('Username or password incorrect')
-            return redirect(url_for('login'))
+        else:
+            return flash_and_redirect('Username or password incorrect')
     return render_template('login.html')
-
 
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
+    return redirect(url_for('login'))
+
+def flash_and_redirect(message):
+    flash(message)
     return redirect(url_for('login'))
 
 
