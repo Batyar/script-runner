@@ -15,23 +15,15 @@
       <tr>
         <td>{{script.name}}</td>
         <td>
-          <div class=update>
-            {{script.arguments}}
-          </div>
+          <input class='update args' type=text name=arguments value="{{script.arguments}}">
         </td>
         <td>link</td>
-        <td><input class='tiny button' type=submit value=Run></td>
+        <td>
+          <input class='tiny button' type=submit value=Run>
+        </td>
       </tr>
     </form>
     {% endfor %}
   </tbody>
 </table>
-<script type="text/javascript">
-  $('.update').click(function(){
-    var exist_args = $(this).text().trim();
-    var form = '<form action=# method=post><input type=text value="' + exist_args + '"></form>'
-    $(this).parent().append(form)
-    $(this).remove();
-  })
-</script>
 {% endblock %}

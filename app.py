@@ -40,6 +40,8 @@ def add_script():
 def run_script(id):
     script = Script.query.get(id)
     if current_user.id == script.user_id:
+        script.arguments = request.form['arguments']
+        db.session.commit()
         current_user.run(script)
         return redirect(url_for('scripts'))
     return flash_and_redirect('Not authorized')

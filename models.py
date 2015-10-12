@@ -28,8 +28,7 @@ class User(db.Model):
         return self
 
     def run(self, script):
-        print '----------DONE--------------'
-        pass
+        print script.arguments
 
     def clear_scripts(self):
         directory = self.name
