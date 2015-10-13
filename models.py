@@ -1,8 +1,10 @@
 from app import app
+from flask import flash
 from flask.ext.bcrypt import generate_password_hash
 from flask.ext.sqlalchemy import SQLAlchemy
 from os import listdir, makedirs
 from os.path import isfile, join, exists
+from subprocess import call
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:909090@localhost/wsr'
 db = SQLAlchemy(app)
@@ -28,7 +30,11 @@ class User(db.Model):
         return self
 
     def run(self, script):
-        print script.arguments
+        try:
+            path = self.name + '/' + script.name
+            call(['python', path] + script.arguments.split())
+        except OSError:
+            return flash('Incorrect script name or arguments')
 
     def clear_scripts(self):
         directory = self.name
@@ -81,3 +87,7 @@ class Script(db.Model):
             makedirs(directory)
         open(directory + '/%s' % self.name, 'w+')
         open(directory + '/%s.output' % self.name, 'w+')
+
+    def check_arguments(self):
+        result = [False for e in self.arguments if not e.isalnum() and e not in [' ', '-']]
+        return False if False in result else True
