@@ -6105,3 +6105,6 @@ th.hide-for-touch {
 label, input[type=text], select{
   min-width: 300px
 }
+.block{
+  display: inline-block;
+}

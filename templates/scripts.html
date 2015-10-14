@@ -1,35 +1,37 @@
 {% extends "template.html" %}
 {% block content %}
-{% for message in get_flashed_messages() %}
-  <div data-alert class="alert-box alert radius">
-    {{ message }}
-    <a href="#" class="close">&times;</a>
-  </div>
-{% endfor %}
-<table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Arguments</th>
-      <th>Output</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for script in current_user.scripts %}
-    <form action="{{url_for('run_script', id=script.id)}}" method=post>
+<div class=block>
+  {% for message in get_flashed_messages() %}
+    <div data-alert class="alert-box alert radius">
+      {{ message }}
+      <a href="#" class="close">&times;</a>
+    </div>
+  {% endfor %}
+  <table>
+    <thead>
       <tr>
-        <td>{{script.name}}</td>
-        <td>
-          <input class='update args' type=text name=arguments value="{{script.arguments}}">
-        </td>
-        <td>link</td>
-        <td>
-          <input class='tiny button' type=submit value=Run>
-        </td>
+        <th>Title</th>
+        <th>Arguments</th>
+        <th>Output</th>
+        <th>Action</th>
       </tr>
-    </form>
-    {% endfor %}
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      {% for script in current_user.scripts %}
+      <form action="{{url_for('run_script', id=script.id)}}" method=post>
+        <tr>
+          <td>{{script.name}}</td>
+          <td>
+            <input class='update args' type=text name=arguments value="{{script.arguments}}">
+          </td>
+          <td>link</td>
+          <td>
+            <input class='tiny button' type=submit value=Run>
+          </td>
+        </tr>
+      </form>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 {% endblock %}

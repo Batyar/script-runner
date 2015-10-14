@@ -29,7 +29,11 @@ def add_script():
     if current_user.is_authenticated:
         if request.method == 'POST':
             user = User.find_by_name(request.form['username'])
-            Script(request.form['scriptname'], request.form['arguments'], user).save()
+            if not request.form['scriptname']:
+                flash('Script name can not be empty')
+                return redirect(url_for('add_script'))
+            else:
+                Script(request.form['scriptname'], request.form['arguments'], user).save()
             return redirect(url_for('scripts'))
         else:
             users = User.query.all()

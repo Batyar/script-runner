@@ -32,7 +32,8 @@ class User(db.Model):
     def run(self, script):
         try:
             path = self.name + '/' + script.name
-            call(['python', path] + script.arguments.split())
+            call(['chmod', '+x', path])
+            call(['./' + path] + script.arguments.split())
         except OSError:
             return flash('Incorrect script name or arguments')
 

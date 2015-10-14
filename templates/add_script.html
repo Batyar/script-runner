@@ -3,6 +3,12 @@
 <form action=add_script method=post>
   <div class="row add script">
     <div class="small-4 columns">
+      {% for message in get_flashed_messages() %}
+        <div data-alert class="alert-box alert radius">
+          {{ message }}
+          <a href="#" class="close">&times;</a>
+        </div>
+      {% endfor %}
       <label>Script name</label>
       <input type="text" name=scriptname />
       <label>Arguments</label>
