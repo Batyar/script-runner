@@ -9,10 +9,6 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 app.secret_key = 'pcduino'
 
-def flash_and_redirect(message):
-    flash(message)
-    return redirect(url_for('login'))
-
 @login_manager.user_loader
 def user_loader(user_id):
     return User.query.get(user_id)
@@ -78,11 +74,7 @@ def logout():
 @app.route('/files')
 @login_required
 def files():
-    arr = sorted(os.listdir('/'), key=lambda s: s.lower())
-    files, folders = [], []
-    for i in arr:
-      files.append(i) if os.path.isfile('/'+i) else folders.append(i)
-    return render_template('files.html', files=files, folders=folders)
+    return split_folders_and_files('/')
 
 @app.route('/files/<path:req_path>')
 @login_required
@@ -92,12 +84,19 @@ def dir_listing(req_path):
         return abort(404)
     if os.path.isfile(abs_path):
         return send_file(abs_path)
-    arr = sorted(os.listdir(abs_path), key=lambda s: s.lower())
+    return split_folders_and_files(abs_path + '/')
+    
+
+def split_folders_and_files(path):
+    arr = sorted(os.listdir(path), key=lambda s: s.lower())
     files, folders = [], []
     for i in arr:
-      files.append(i) if os.path.isfile(abs_path + '/' + i) else folders.append(i)
+      files.append(i) if os.path.isfile(path + i) else folders.append(i)
     return render_template('files.html', files=files, folders=folders)
 
+def flash_and_redirect(message):
+    flash(message)
+    return redirect(url_for('login'))
 
 if __name__ == '__main__':
     app.run(debug=True)
