@@ -3,6 +3,7 @@
   <head>
     <title>Runner</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/foundation.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/foundation-icons.css') }}">
     <script src="{{ url_for('static', filename='js/vendor/modernizr.js') }}"></script>
     <script src="{{ url_for('static', filename='js/vendor/jquery.js') }}"></script>
     <script src="{{ url_for('static', filename='js/foundation.min.js') }}"></script>
@@ -26,6 +27,7 @@
             {% if current_user.is_authenticated %}
                 <li><a href="/add_script">Add Script</a></li>
                 <li><a href="/scripts">Scripts</a></li>
+                <li><a href="/files">File Browser</a></li>
                 <li><a href="/logout">Logout</a></li>
             {% endif %}
           </ul>

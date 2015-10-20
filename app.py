@@ -1,12 +1,17 @@
-from flask import Flask, flash, redirect, url_for, request, get_flashed_messages, render_template, session
+from flask import Flask, flash, redirect, url_for, request, get_flashed_messages, render_template, session, abort, send_file
 from flask.ext.login import LoginManager, current_user, login_user, logout_user, login_required
 from flask.ext.bcrypt import check_password_hash
 from models import *
+import os
 
 app = Flask(__name__)
 login_manager = LoginManager()
 login_manager.init_app(app)
 app.secret_key = 'pcduino'
+
+def flash_and_redirect(message):
+    flash(message)
+    return redirect(url_for('login'))
 
 @login_manager.user_loader
 def user_loader(user_id):
@@ -70,9 +75,28 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
-def flash_and_redirect(message):
-    flash(message)
-    return redirect(url_for('login'))
+@app.route('/files')
+@login_required
+def files():
+    arr = sorted(os.listdir('/'), key=lambda s: s.lower())
+    files, folders = [], []
+    for i in arr:
+      files.append(i) if os.path.isfile('/'+i) else folders.append(i)
+    return render_template('files.html', files=files, folders=folders)
+
+@app.route('/files/<path:req_path>')
+@login_required
+def dir_listing(req_path):
+    abs_path = '/' + req_path
+    if not os.path.exists(abs_path):
+        return abort(404)
+    if os.path.isfile(abs_path):
+        return send_file(abs_path)
+    arr = sorted(os.listdir(abs_path), key=lambda s: s.lower())
+    files, folders = [], []
+    for i in arr:
+      files.append(i) if os.path.isfile(abs_path + '/' + i) else folders.append(i)
+    return render_template('files.html', files=files, folders=folders)
 
 
 if __name__ == '__main__':
