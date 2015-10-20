@@ -1,19 +1,35 @@
 {% extends "template.html" %}
 {% block content %}
+  {% for message in get_flashed_messages() %}
+    <div data-alert class="alert-box alert radius">
+      {{ message }}
+      <a href="#" class="close">&times;</a>
+    </div>
+  {% endfor %}
   <ul class="small-block-grid-3 medium-block-grid-5 large-block-grid-10">
   {% for folder in folders %}
-      <li>
+      <li class="centered">
         <a class=file href="{{ '/'.join([request.path, folder]) }}">
-          <i class="step fi-folder size-72"></i>{{ folder }}
+          <i class="step fi-folder size-72"></i>
+          {{ folder }}
         </a>
       </li>
   {% endfor %}
   {% for file in files %}
-      <li>
-        <a class=file href="{{ '/'.join([request.path, file]) }}">
-          <i class="step fi-page size-72"></i>{{ file }}
+    <li class="centered">
+      {% if  check_img(file) %}
+        <a class=th href="{{ '/'.join([request.path, file]) }}">
+          <img src="{{ '/'.join([request.path, file]) }}">
         </a>
-      </li>
+      {% else %}
+        <a href="{{ '/'.join([request.path, file]) }}">
+         <i class="step fi-page size-72"></i>
+        </a>
+      {% endif %}
+      <a class=file href="{{ '/'.join([request.path, file]) }}">
+        {{ file }}
+      </a>
+    </li>
   {% endfor %}
   </ul>
 {% endblock %}
