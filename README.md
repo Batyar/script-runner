@@ -1,4 +1,4 @@
-# flask-mongo-login
+# script-runner
 
 ###Install:
   * cd script-runner
