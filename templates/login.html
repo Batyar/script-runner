@@ -1,19 +1,18 @@
 {% extends "template.html" %}
 {% block content %}
-  <form method=post>
-    <div class="row login">
-      <div class="small-4 columns">
-        {% for message in get_flashed_messages() %}
-          <div data-alert class="alert-box alert radius">
-            {{ message }}
-            <a href="#" class="close">&times;</a>
-          </div>
-        {% endfor %}
-        <input type=text name=username id=right-label placeholder=Login>
-        <input type=password name=password id=right-label placeholder=Password>
-        <input class='button small' type=submit value=Login>
-      </div>
+<form method=post>
+  <div class="row login">
+    <div class="small-4 columns">
+      {% for message in get_flashed_messages() %}
+        <div data-alert class="alert-box alert radius">
+          {{ message }}
+          <a href="#" class="close">&times;</a>
+        </div>
+      {% endfor %}
+      <input type=text name=username id=right-label placeholder=Login>
+      <input type=password name=password id=right-label placeholder=Password>
+      <input class='button small' type=submit value=Login>
     </div>
-  </form> 
-</div>
+  </div>
+</form> 
 {% endblock %}

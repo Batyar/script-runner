@@ -1,8 +1,4 @@
-from flask import Flask, flash, redirect, url_for, request, get_flashed_messages, render_template, session, abort, send_file
-from flask.ext.login import LoginManager, current_user, login_user, logout_user, login_required
-from flask.ext.bcrypt import check_password_hash
-from models import *
-import os, re
+from hendlers import *
 
 app = Flask(__name__)
 login_manager = LoginManager()
@@ -22,7 +18,7 @@ def scripts():
     if current_user.is_authenticated:
         current_user.clear_scripts()
         db.session.commit()
-        return render_template('scripts.html')
+        return render_template('scripts.html', root_path=os.getcwd())
     return flash_and_redirect('Not authorized')
 
 @app.route('/add_script', methods=['GET', 'POST'])
@@ -81,31 +77,10 @@ def files():
 def dir_listing(req_path):
     try:
         abs_path = '/' + req_path
-        if not os.path.exists(abs_path):
-            return abort(404)
-        if os.path.isfile(abs_path):
-            return send_file(abs_path)
-        return split_folders_and_files(abs_path + '/')
+        return handle_files(abs_path)
     except OSError:
         flash('Permission denied')
         return redirect(url_for('files'))
-
-def split_folders_and_files(path):
-    arr = sorted(os.listdir(path), key=lambda s: s.lower())
-    files, folders = [], []
-    for i in arr:
-      files.append(i) if os.path.isfile(path + i) else folders.append(i)
-    return render_template('files.html', files=files, folders=folders, check_img=check_img)
-
-def flash_and_redirect(message):
-    flash(message)
-    return redirect(url_for('login'))
-
-def check_img(file):
-    if re.compile(r'(\.(?:jpg|jpeg|gif|png)$)').search(file) is not None:
-        return True
-    else:
-        return False
 
 if __name__ == '__main__':
     app.run(debug=True)
