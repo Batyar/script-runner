@@ -7,6 +7,7 @@ from os.path import isfile, join, exists
 from subprocess import call
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:909090@localhost/wsr'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
 
 
