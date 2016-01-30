@@ -1,4 +1,5 @@
 # script-runner
+This is small control panel for quick script running and file browsing
 
 ###Install:
   * cd script-runner
@@ -17,3 +18,7 @@
   
 ######Navigate in browser http://0.0.0.0:5000/login
 
+###Logo:
+![alt text][logo]
+
+[logo]: https://github.com/Batyar/script-runner/blob/master/static/example.jpg "Example"
