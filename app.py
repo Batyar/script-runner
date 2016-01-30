@@ -11,7 +11,9 @@ def user_loader(user_id):
 
 @app.route('/')
 def home():
-    return render_template('scripts.html')
+    if current_user.is_authenticated:
+        return render_template('scripts.html')
+    return flash_and_redirect('Not authorized')
 
 @app.route('/scripts')
 def scripts():
